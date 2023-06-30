@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] float playerSpeed = 10f;
+    [SerializeField] float moveSpeed = 10f;
+    [SerializeField] float rotationSpeed = 10f;
 
     Transform playerPosition;
 
@@ -32,10 +33,14 @@ public class Player : MonoBehaviour
         {
             inputVector.x = 1f;
         }
+
         inputVector = inputVector.normalized;
 
-        transform.position = new Vector3(transform.position.x + inputVector.x * playerSpeed * Time.deltaTime, 0f, transform.position.z + inputVector.y * playerSpeed * Time.deltaTime);
-        //transform.position += (Vector3)inputVector * playerSpeed * Time.deltaTime;
+        Vector3 moveDirection = new Vector3(inputVector.x, 0f, inputVector.y);
+
+        transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
+
+        transform.position += moveDirection * moveSpeed * Time.deltaTime;
     }
 
 
