@@ -9,9 +9,10 @@ public class Player : MonoBehaviour
 
     Transform playerPosition;
 
+    bool isWalking = false;
+
     private void Start()
     {
-
     }
     private void Update()
     {
@@ -38,10 +39,16 @@ public class Player : MonoBehaviour
 
         Vector3 moveDirection = new Vector3(inputVector.x, 0f, inputVector.y);
 
-        transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
-
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
+
+        isWalking = moveDirection != Vector3.zero;
+
+        transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
     }
 
+    public bool IsWalking()
+    {
+        return isWalking;
+    }
 
 }
